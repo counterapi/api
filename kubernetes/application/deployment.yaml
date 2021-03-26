@@ -32,11 +32,11 @@ spec:
       containers:
         - name: counter
           image: ghcr.io/counterapi/counter:v0.2.0
-            command: [ "/bin/ash", "-c" ]
-            args:
-              - >-
-                source /vault/secrets/rds;
-                counter
+          command: [ "/bin/ash", "-c" ]
+          args:
+            - >-
+              source /vault/secrets/rds;
+              counter
           resources:
             limits:
               cpu: 200m
