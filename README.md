@@ -1,0 +1,2 @@
+# counter
+Counter Go application
