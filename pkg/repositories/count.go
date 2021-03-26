@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"github.com/counterapi/counter/models"
+	"github.com/counterapi/counter/pkg/models"
 
 	"gorm.io/gorm"
 )

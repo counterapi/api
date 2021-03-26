@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: counter
+  labels:
+    app: counter
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: counter
+  template:
+    metadata:
+      labels:
+        app: counter
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "omegion"
+        vault.hashicorp.com/agent-pre-populate-only: "true"
+        vault.hashicorp.com/agent-inject-secret-github: "github/token"
+        vault.hashicorp.com/agent-inject-template-github: |
+          {{ with secret "github/token" -}}
+            export GITHUB_TOKEN="{{ .Data.data.omegion_counter }}"
+          {{- end }}
+    spec:
+      serviceAccountName: vault-auth
+      imagePullSecrets:
+        - name: registry-secret
+      containers:
+        - name: counter
+          image: ghcr.io/counterapi/counter:v1.8.0
+          imagePullPolicy: Always
+          command: [ "/bin/bash", "-c" ]
+          args:
+            - >-
+              source /vault/secrets/github;
+              yarn start
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 75m
+              memory: 50Mi
+          ports:
+            - containerPort: 80
+          env:
+            - name: ENVIRONMENT
+              value: "production"
+  strategy:
+    blueGreen:
+      activeService: counter-stable
+      previewService: counter-preview
+      autoPromotionEnabled: false

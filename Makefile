@@ -9,10 +9,10 @@ COVER_PROFILE      = $(REPORT_DIR)/coverage.out
 
 .PHONY: build
 build:
-	CGO_ENABLED=0 go build $(LDFLAGS) -installsuffix cgo -o dist/db-backup main.go
+	CGO_ENABLED=0 go build $(LDFLAGS) -installsuffix cgo -o dist/counter main.go
 
 build-for-container:
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -a -installsuffix cgo -o dist/db-backup-linux main.go
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -a -installsuffix cgo -o dist/counter-linux main.go
 
 .PHONY: lint
 lint:
@@ -42,8 +42,8 @@ cut-tag:
 .PHONY: release
 release: build-for-container
 	@echo "Releasing $(GIT_VERSION)"
-	docker build -t db-backup . --build-arg VERSION=$(GIT_VERSION)
-	docker tag db-backup:latest counterapi/counter:$(GIT_VERSION)
+	docker build -t counter .
+	docker tag counter:latest counterapi/counter:$(GIT_VERSION)
 	docker push counterapi/counter:$(GIT_VERSION)
 
 .PHONY: run-dev
@@ -53,3 +53,11 @@ run-dev:
 .PHONY: run-dev-db
 run-dev-db:
 	docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=root -d postgres
+
+.PHONY: set-db-variables
+set-db-variables:
+	export POSTGRES_HOST=localhost
+	export POSTGRES_PORT=5432
+	export POSTGRES_USER=postgres
+	export POSTGRES_DB=counter_api
+	export POSTGRES_PASSWORD=root

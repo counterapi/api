@@ -1,7 +1,9 @@
 package routes
 
 import (
-	"github.com/counterapi/counter/config"
+	"github.com/counterapi/counter/pkg/config"
+	"github.com/counterapi/counter/pkg/middlewares"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +16,9 @@ func Run() {
 	setDB()
 	getRoutes()
 
-	router.Run(":8080")
+	router.Use(middlewares.Throttle())
+
+	router.Run(":80")
 }
 
 // getRoutes will create our routes of our entire application

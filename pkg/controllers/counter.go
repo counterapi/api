@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/counterapi/counter/repositories"
+	"github.com/counterapi/counter/pkg/repositories"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"net/http"

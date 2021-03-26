@@ -1,0 +1,38 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: counter-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      gzip            on;
+      gzip_types      text/plain application/xml text/css application/javascript;
+      gzip_min_length 1000;
+spec:
+  tls:
+    - hosts:
+        - counter.omegion.dev
+        - counter-preview.omegion.dev
+      secretName: cloudflare-tls
+  rules:
+    - host: counter.omegion.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: counter-stable
+                port:
+                  number: 80
+    - host: counter-preview.omegion.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: counter-preview
+                port:
+                  number: 80

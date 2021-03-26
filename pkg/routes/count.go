@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"github.com/counterapi/counter/config"
-	"github.com/counterapi/counter/controllers"
-	"github.com/counterapi/counter/repositories"
+	"github.com/counterapi/counter/pkg/config"
+	"github.com/counterapi/counter/pkg/controllers"
+	"github.com/counterapi/counter/pkg/repositories"
 	"github.com/gin-gonic/gin"
 )
 

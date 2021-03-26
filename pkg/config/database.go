@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	"github.com/counterapi/counter/models"
+	"github.com/counterapi/counter/pkg/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"os"

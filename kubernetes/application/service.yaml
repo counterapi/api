@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: counter-stable
+spec:
+  selector:
+    app: counter
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: counter-preview
+spec:
+  selector:
+    app: counter
+  ports:
+    - port: 80
+      targetPort: 80
