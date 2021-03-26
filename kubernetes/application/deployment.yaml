@@ -24,6 +24,7 @@ spec:
             export DB_USER="{{ .Data.data.username }}"
             export DB_PASS="{{ .Data.data.password }}"
             export DB_PORT="{{ .Data.data.port }}"
+            export DB_HOST="{{ .Data.data.host }}"
           {{- end }}
     spec:
       serviceAccountName: vault-auth
@@ -47,10 +48,8 @@ spec:
           ports:
             - containerPort: 80
           env:
-            - name: DB_HOST
-              value: "production"
             - name: DB_NAME
-              value: "production"
+              value: "counter_api"
   strategy:
     blueGreen:
       activeService: counter-stable
