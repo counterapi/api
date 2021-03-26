@@ -32,7 +32,7 @@ spec:
         - name: registry-secret
       containers:
         - name: counter
-          image: ghcr.io/counterapi/counter:v0.2.0
+          image: ghcr.io/counterapi/counter:v0.3.0
           command: [ "/bin/ash", "-c" ]
           args:
             - >-
