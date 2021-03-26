@@ -18,10 +18,12 @@ spec:
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: "omegion"
         vault.hashicorp.com/agent-pre-populate-only: "true"
-        vault.hashicorp.com/agent-inject-secret-github: "github/token"
-        vault.hashicorp.com/agent-inject-template-github: |
-          {{ with secret "github/token" -}}
-            export GITHUB_TOKEN="{{ .Data.data.omegion_counter }}"
+        vault.hashicorp.com/agent-inject-secret-rds: "aws/rds/omegion-1"
+        vault.hashicorp.com/agent-inject-template-rds: |
+          {{ with secret "aws/rds/omegion-1" -}}
+            export DB_USER="{{ .Data.data.username }}"
+            export DB_PASS="{{ .Data.data.password }}"
+            export DB_PORT="{{ .Data.data.port }}"
           {{- end }}
     spec:
       serviceAccountName: vault-auth
@@ -29,13 +31,12 @@ spec:
         - name: registry-secret
       containers:
         - name: counter
-          image: ghcr.io/counterapi/counter:v1.8.0
-          imagePullPolicy: Always
-          command: [ "/bin/bash", "-c" ]
-          args:
-            - >-
-              source /vault/secrets/github;
-              yarn start
+          image: ghcr.io/counterapi/counter:v0.2.0
+            command: [ "/bin/ash", "-c" ]
+            args:
+              - >-
+                source /vault/secrets/rds;
+                counter
           resources:
             limits:
               cpu: 200m
@@ -46,7 +47,9 @@ spec:
           ports:
             - containerPort: 80
           env:
-            - name: ENVIRONMENT
+            - name: DB_HOST
+              value: "production"
+            - name: DB_NAME
               value: "production"
   strategy:
     blueGreen:
