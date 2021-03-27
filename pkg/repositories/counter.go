@@ -52,14 +52,14 @@ func (r CounterRepository) GetOrCreateByName(name string) (models.Counter, error
 }
 
 // IncreaseByName increase models.Counter by name.
-func (r CounterRepository) IncreaseByName(name string) error {
-	err := r.DB.Transaction(func(tx *gorm.DB) error {
-		// Get counter if exist
-		counter, err := r.GetOrCreateByName(name)
-		if err != nil {
-			return err
-		}
+func (r CounterRepository) IncreaseByName(name string) (models.Counter, error) {
+	// Get counter if exist
+	counter, err := r.GetOrCreateByName(name)
+	if err != nil {
+		return counter, err
+	}
 
+	err = r.DB.Transaction(func(tx *gorm.DB) error {
 		// Increment Counter
 		if err := tx.Model(&counter).Update("count", counter.Count+1).Error; err != nil {
 			return err
@@ -77,21 +77,21 @@ func (r CounterRepository) IncreaseByName(name string) error {
 		return nil
 	})
 	if err != nil {
-		return err
+		return counter, err
 	}
 
-	return nil
+	return counter, nil
 }
 
 // DecreaseByName decrease models.Counter by name.
-func (r CounterRepository) DecreaseByName(name string) error {
-	err := r.DB.Transaction(func(tx *gorm.DB) error {
-		// Get counter if exist
-		counter, err := r.GetOrCreateByName(name)
-		if err != nil {
-			return err
-		}
+func (r CounterRepository) DecreaseByName(name string) (models.Counter, error) {
+	// Get counter if exist
+	counter, err := r.GetOrCreateByName(name)
+	if err != nil {
+		return counter, err
+	}
 
+	err = r.DB.Transaction(func(tx *gorm.DB) error {
 		// Increment Counter
 		if err := tx.Model(&counter).Update("count", counter.Count-1).Error; err != nil {
 			return err
@@ -109,8 +109,8 @@ func (r CounterRepository) DecreaseByName(name string) error {
 		return nil
 	})
 	if err != nil {
-		return err
+		return counter, err
 	}
 
-	return nil
+	return counter, nil
 }

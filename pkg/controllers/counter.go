@@ -37,7 +37,7 @@ func (c CounterController) Up(ctx *gin.Context) {
 		return
 	}
 
-	err := c.Repository.IncreaseByName(query.Name)
+	counter, err := c.Repository.IncreaseByName(query.Name)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"code":    http.StatusBadRequest,
@@ -47,10 +47,7 @@ func (c CounterController) Up(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"code":    http.StatusOK,
-		"message": "increased",
-	})
+	ctx.JSON(http.StatusOK, counter)
 }
 
 // Down decreases Counter.
@@ -63,7 +60,7 @@ func (c CounterController) Down(ctx *gin.Context) {
 		return
 	}
 
-	err := c.Repository.DecreaseByName(query.Name)
+	counter, err := c.Repository.DecreaseByName(query.Name)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"code":    http.StatusBadRequest,
@@ -73,10 +70,7 @@ func (c CounterController) Down(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"code":    http.StatusOK,
-		"message": "decreased",
-	})
+	ctx.JSON(http.StatusOK, counter)
 }
 
 // Get gets Counter.

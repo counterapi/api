@@ -18,7 +18,7 @@ type CountController struct {
 type GetCountsQuery struct {
 	Name    string `form:"name" json:"name" binding:"required,alphanum,max=100"`
 	GroupBy string `form:"group_by" json:"group_by" binding:"required"`
-	Order   string `form:"order" json:"order" binding:""`
+	OrderBy string `form:"order_by" json:"order_by" binding:""`
 }
 
 // GetCounts gets counts for a counter.
@@ -34,7 +34,7 @@ func (c CountController) GetCounts(ctx *gin.Context) {
 		return
 	}
 
-	counts, _ := c.Repository.GroupByCounterNameAndTimeInterval(query.Name, query.GroupBy, query.Order)
+	counts, _ := c.Repository.GroupByCounterNameAndTimeInterval(query.Name, query.GroupBy, query.OrderBy)
 
 	ctx.JSON(http.StatusOK, counts)
 }

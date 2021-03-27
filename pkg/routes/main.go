@@ -3,7 +3,7 @@ package routes
 import (
 	"github.com/counterapi/counter/pkg/config"
 	"github.com/counterapi/counter/pkg/middlewares"
-
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -48,4 +48,5 @@ func setMiddlewares(router *gin.Engine) {
 	})
 
 	router.Use(lm.Middleware())
+	router.Use(cors.Default())
 }
