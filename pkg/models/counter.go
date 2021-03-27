@@ -30,3 +30,9 @@ type Count struct {
 func (b *Count) TableName() string {
 	return "counts"
 }
+
+// CountGroupResult is a grouped result of Count.
+type CountGroupResult struct {
+	Count int64     `json:"count"`
+	Date  time.Time `json:"date"`
+}

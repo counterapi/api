@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"fmt"
+
 	"github.com/counterapi/counter/pkg/models"
 
 	"gorm.io/gorm"
@@ -11,17 +13,25 @@ type CountRepository struct {
 	DB *gorm.DB
 }
 
-// ListByCounterName list counts by models.Counter name.
-func (r CountRepository) ListByCounterName(name string) ([]models.Count, error) {
-	var counts []models.Count
+// GroupByCounterNameAndTimeInterval groups the counts by models.Counter name and time interval.
+func (r CountRepository) GroupByCounterNameAndTimeInterval(
+	name string,
+	interval string,
+	order string,
+) ([]models.CountGroupResult, error) {
+	var results []models.CountGroupResult
 
 	err := r.DB.
+		Model(&models.Count{}).
+		Select(fmt.Sprintf("count(*) as count, date_trunc('%s', counts.created_at) as date", interval)).
 		Joins("JOIN counters on counters.id=counts.counter_id").
 		Where("counters.name = ?", name).
-		Find(&counts).Error
+		Group(fmt.Sprintf("date_trunc('%s', counts.created_at)", interval)).
+		Order(fmt.Sprintf("date %s", order)).
+		Find(&results).Error
 	if err != nil {
-		return counts, err
+		return results, err
 	}
 
-	return counts, nil
+	return results, nil
 }
