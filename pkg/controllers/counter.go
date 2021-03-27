@@ -1,20 +1,25 @@
 package controllers
 
 import (
+	"net/http"
+
 	"github.com/counterapi/counter/pkg/repositories"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"net/http"
 )
 
+// CounterController is controller for count operations.
 type CounterController struct {
 	Repository repositories.CounterRepository
 }
 
+// UpQuery is query for Counter up params.
 type UpQuery struct {
 	Name string `form:"name" json:"name" binding:"required,alphanum,max=100"`
 }
 
+// DownQuery is query for Counter down params.
 type DownQuery struct {
 	Name string `form:"name" json:"name" binding:"required,alphanum"`
 }
@@ -46,8 +51,6 @@ func (c CounterController) Up(ctx *gin.Context) {
 		"code":    http.StatusOK,
 		"message": "increased",
 	})
-
-	return
 }
 
 // Down decreases Counter.
@@ -74,8 +77,6 @@ func (c CounterController) Down(ctx *gin.Context) {
 		"code":    http.StatusOK,
 		"message": "decreased",
 	})
-
-	return
 }
 
 // Get gets Counter.
@@ -102,6 +103,4 @@ func (c CounterController) Get(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, counter)
-
-	return
 }

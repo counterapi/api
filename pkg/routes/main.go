@@ -7,24 +7,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	router = gin.Default()
-)
-
-// Run will start the server
+// Run will start the server.
 func Run() {
+	router := gin.Default()
+
 	setDB()
-	getRoutes()
+	setMiddlewares(router)
+	getRoutes(router)
 
-	router.Use(middlewares.Throttle())
-
-	router.Run(":80")
+	err := router.Run(":80")
+	if err != nil {
+		panic(err)
+	}
 }
 
-// getRoutes will create our routes of our entire application
-// this way every group of routes can be defined in their own file
-// so this one won't be so messy
-func getRoutes() {
+// getRoutes will create our routes of our entire application.
+func getRoutes(router *gin.Engine) {
 	main := router.Group("")
 	v1 := router.Group("/v1")
 
@@ -33,7 +31,7 @@ func getRoutes() {
 	addCountRoutes(v1)
 }
 
-// setDB will create Database instance
+// setDB will create Database instance.
 func setDB() {
 	db, err := config.SetupDatabase()
 	if err != nil {
@@ -41,4 +39,13 @@ func setDB() {
 	}
 
 	config.DB = db
+}
+
+// setMiddlewares will set middlewares.
+func setMiddlewares(router *gin.Engine) {
+	lm := middlewares.NewRateLimiter(func(ctx *gin.Context) (string, error) {
+		return ctx.ClientIP(), nil
+	})
+
+	router.Use(lm.Middleware())
 }

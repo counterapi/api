@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/counterapi/counter/pkg/controllers"
+
 	"github.com/gin-gonic/gin"
 )
 

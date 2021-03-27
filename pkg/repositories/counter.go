@@ -2,16 +2,18 @@ package repositories
 
 import (
 	"errors"
+
 	"github.com/counterapi/counter/pkg/models"
 
 	"gorm.io/gorm"
 )
 
+// CounterRepository is a repository for models.Counter.
 type CounterRepository struct {
 	DB *gorm.DB
 }
 
-//GetByName get counter by name
+// GetByName get counter by name.
 func (r CounterRepository) GetByName(name string) (models.Counter, error) {
 	counter := models.Counter{Name: name}
 	if err := r.DB.Where("name = ?", name).First(&counter).Error; err != nil {
@@ -21,7 +23,7 @@ func (r CounterRepository) GetByName(name string) (models.Counter, error) {
 	return counter, nil
 }
 
-//Create create counter
+// Create create counter.
 func (r CounterRepository) Create(counter *models.Counter) error {
 	if err := r.DB.Create(&counter).Error; err != nil {
 		return err
@@ -30,12 +32,12 @@ func (r CounterRepository) Create(counter *models.Counter) error {
 	return nil
 }
 
-//GetOrCreateByName get counter or create by name
+// GetOrCreateByName get counter or create by name.
 func (r CounterRepository) GetOrCreateByName(name string) (models.Counter, error) {
 	counter, err := r.GetByName(name)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			err := r.Create(&counter)
+			err = r.Create(&counter)
 			if err != nil {
 				return counter, err
 			}
@@ -49,7 +51,7 @@ func (r CounterRepository) GetOrCreateByName(name string) (models.Counter, error
 	return counter, nil
 }
 
-//IncreaseByName increase models.Counter by name
+// IncreaseByName increase models.Counter by name.
 func (r CounterRepository) IncreaseByName(name string) error {
 	err := r.DB.Transaction(func(tx *gorm.DB) error {
 		// Get counter if exist
@@ -81,7 +83,7 @@ func (r CounterRepository) IncreaseByName(name string) error {
 	return nil
 }
 
-//DecreaseByName decrease models.Counter by name
+// DecreaseByName decrease models.Counter by name.
 func (r CounterRepository) DecreaseByName(name string) error {
 	err := r.DB.Transaction(func(tx *gorm.DB) error {
 		// Get counter if exist

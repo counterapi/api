@@ -2,14 +2,18 @@ package config
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/counterapi/counter/pkg/models"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"os"
 )
 
-var DB *gorm.DB
+// DB global database variable.
+var DB *gorm.DB //nolint:gochecknoglobals // allow global DB.
 
+// SetupDatabase sets the database up.
 func SetupDatabase() (*gorm.DB, error) {
 	db, err := gorm.Open(postgres.New(postgres.Config{
 		DSN: fmt.Sprintf(
@@ -26,8 +30,15 @@ func SetupDatabase() (*gorm.DB, error) {
 		return &gorm.DB{}, err
 	}
 
-	db.AutoMigrate(&models.Counter{})
-	db.AutoMigrate(&models.Count{})
+	err = db.AutoMigrate(&models.Counter{})
+	if err != nil {
+		return &gorm.DB{}, err
+	}
+
+	err = db.AutoMigrate(&models.Count{})
+	if err != nil {
+		return &gorm.DB{}, err
+	}
 
 	return db, nil
 }

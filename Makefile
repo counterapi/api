@@ -48,7 +48,7 @@ release: build-for-container
 
 .PHONY: run-dev
 run-dev:
-	gin --appPort 8080 --port 3000
+	gin --appPort 80 --port 3000
 
 .PHONY: run-dev-db
 run-dev-db:

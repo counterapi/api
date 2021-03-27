@@ -1,29 +1,73 @@
 package middlewares
 
 import (
-	"errors"
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
-	"golang.org/x/time/rate"
+	"github.com/juju/ratelimit"
 )
 
 const (
-	maxEventsPerSec = 1
-	maxBurstSize    = 20
+	limitInterval = time.Second
+	limitCapacity = 2
 )
 
-// Throttle used to check the rate limit of incoming request
-func Throttle() gin.HandlerFunc {
-	limiter := rate.NewLimiter(rate.Limit(maxEventsPerSec), maxBurstSize)
+// RateKeyFunc is a function for rate key.
+type RateKeyFunc func(ctx *gin.Context) (string, error)
 
-	return func(context *gin.Context) {
-		if limiter.Allow() {
-			context.Next()
-			return
+// RateLimiterMiddleware is a middleware for Gin.
+type RateLimiterMiddleware struct {
+	fillInterval time.Duration
+	capacity     int64
+	ratekeygen   RateKeyFunc
+	limiters     map[string]*ratelimit.Bucket
+}
+
+// get gets limiter bucket.
+func (r *RateLimiterMiddleware) get(ctx *gin.Context) (*ratelimit.Bucket, error) {
+	key, err := r.ratekeygen(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if limiter, existed := r.limiters[key]; existed {
+		return limiter, nil
+	}
+
+	limiter := ratelimit.NewBucketWithQuantum(r.fillInterval, r.capacity, r.capacity)
+	r.limiters[key] = limiter
+
+	return limiter, nil
+}
+
+// Middleware returns Gin middleware.
+func (r *RateLimiterMiddleware) Middleware() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		limiter, err := r.get(ctx)
+		if err != nil || limiter.TakeAvailable(1) == 0 {
+			if err == nil {
+				err = TooManyRequestError{}
+			}
+
+			_ = ctx.AbortWithError(http.StatusTooManyRequests, err)
+		} else {
+			ctx.Writer.Header().Set("X-RateLimit-Remaining", fmt.Sprintf("%d", limiter.Available()))
+			ctx.Writer.Header().Set("X-RateLimit-Limit", fmt.Sprintf("%d", limiter.Capacity()))
+			ctx.Next()
 		}
+	}
+}
 
-		context.Error(errors.New("Limit exceeded"))
-		context.AbortWithStatus(http.StatusTooManyRequests)
+// NewRateLimiter creates new middleware.
+func NewRateLimiter(keyGen RateKeyFunc) *RateLimiterMiddleware {
+	limiters := make(map[string]*ratelimit.Bucket)
+
+	return &RateLimiterMiddleware{
+		limitInterval,
+		limitCapacity,
+		keyGen,
+		limiters,
 	}
 }
