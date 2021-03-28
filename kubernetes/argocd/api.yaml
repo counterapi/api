@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:counterapi/counter.git
+    repoURL: git@github.com:counterapi/counterapi.git
     targetRevision: master
     path: kubernetes/application
     directory:
