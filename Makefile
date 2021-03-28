@@ -1,6 +1,6 @@
 export PATH := $(abspath ./vendor/bin):$(PATH)
 
-BASE_PACKAGE_NAME  = github.com/counterapi/counter
+BASE_PACKAGE_NAME  = github.com/counterapi/counterapi
 GIT_VERSION = $(shell git describe --tags --always 2> /dev/null || echo 0.0.0)
 LDFLAGS            = -ldflags "-X $(BASE_PACKAGE_NAME)/pkg/info.Version=$(GIT_VERSION)"
 BUFFER            := $(shell mktemp)
@@ -43,7 +43,7 @@ cut-tag:
 release: build-for-container
 	@echo "Releasing $(GIT_VERSION)"
 	docker build -t counter .
-	docker tag counter:latest counterapi/counter:$(GIT_VERSION)
+	docker tag counter:latest counterapi/counterapi:$(GIT_VERSION)
 	docker push counterapi/counter:$(GIT_VERSION)
 
 .PHONY: run-dev

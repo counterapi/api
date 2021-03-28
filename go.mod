@@ -1,4 +1,4 @@
-module github.com/counterapi/counter
+module github.com/counterapi/counterapi
 
 go 1.16
 
