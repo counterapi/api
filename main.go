@@ -5,5 +5,9 @@ import (
 )
 
 func main() {
-	routes.Run()
+	r := routes.NewRoutes()
+
+	if err := r.Run(); err != nil {
+		panic(err)
+	}
 }

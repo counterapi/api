@@ -8,12 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func addCountRoutes(rg *gin.RouterGroup) {
-	ping := rg.Group("counts")
+// addCount is for count route group.
+func (r Routes) addCount(rg *gin.RouterGroup) {
+	route := rg.Group("/counts")
 
 	counter := controllers.CountController{
 		Repository: repositories.CountRepository{DB: config.DB},
 	}
 
-	ping.GET("/", counter.GetCounts)
+	route.GET("/", counter.GetCounts)
 }

@@ -8,14 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func addCounterRoutes(rg *gin.RouterGroup) {
-	ping := rg.Group("")
+// addCounter is for counter route group.
+func (r Routes) addCounter(rg *gin.RouterGroup) {
+	route := rg.Group("/")
 
 	counter := controllers.CounterController{
 		Repository: repositories.CounterRepository{DB: config.DB},
 	}
 
-	ping.GET("/up", counter.Up)
-	ping.GET("/down", counter.Down)
-	ping.GET("/get", counter.Get)
+	route.GET("/up", counter.Up)
+	route.GET("/down", counter.Down)
+	route.GET("/get", counter.Get)
 }

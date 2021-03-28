@@ -61,7 +61,7 @@ func (r CounterRepository) IncreaseByName(name string) (models.Counter, error) {
 
 	err = r.DB.Transaction(func(tx *gorm.DB) error {
 		// Increment Counter
-		if err := tx.Model(&counter).Update("count", counter.Count+1).Error; err != nil {
+		if err = tx.Model(&counter).Update("count", counter.Count+1).Error; err != nil {
 			return err
 		}
 
@@ -70,7 +70,7 @@ func (r CounterRepository) IncreaseByName(name string) (models.Counter, error) {
 			CounterID: counter.ID,
 		}
 
-		if err := tx.Create(&count).Error; err != nil {
+		if err = tx.Create(&count).Error; err != nil {
 			return err
 		}
 
@@ -93,7 +93,7 @@ func (r CounterRepository) DecreaseByName(name string) (models.Counter, error) {
 
 	err = r.DB.Transaction(func(tx *gorm.DB) error {
 		// Increment Counter
-		if err := tx.Model(&counter).Update("count", counter.Count-1).Error; err != nil {
+		if err = tx.Model(&counter).Update("count", counter.Count-1).Error; err != nil {
 			return err
 		}
 
@@ -102,7 +102,7 @@ func (r CounterRepository) DecreaseByName(name string) (models.Counter, error) {
 			CounterID: counter.ID,
 		}
 
-		if err := tx.Create(&count).Error; err != nil {
+		if err = tx.Create(&count).Error; err != nil {
 			return err
 		}
 

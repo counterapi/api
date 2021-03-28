@@ -6,10 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func addHealthRoutes(rg *gin.RouterGroup) {
-	ping := rg.Group("health")
+// addHealth is for health route group.
+func (r Routes) addHealth(rg *gin.RouterGroup) {
+	route := rg.Group("/health")
 
 	health := new(controllers.HealthController)
 
-	ping.GET("/", health.Status)
+	route.GET("/", health.Status)
 }

@@ -3,32 +3,38 @@ package routes
 import (
 	"github.com/counterapi/counter/pkg/config"
 	"github.com/counterapi/counter/pkg/middlewares"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
-// Run will start the server.
-func Run() {
-	router := gin.Default()
-
-	setDB()
-	setMiddlewares(router)
-	getRoutes(router)
-
-	err := router.Run(":80")
-	if err != nil {
-		panic(err)
-	}
+// Routes is main route struct.
+type Routes struct {
+	router *gin.Engine
 }
 
-// getRoutes will create our routes of our entire application.
-func getRoutes(router *gin.Engine) {
-	main := router.Group("")
-	v1 := router.Group("/v1")
+// NewRoutes generates Routes for the application.
+func NewRoutes() Routes {
+	r := Routes{
+		router: gin.Default(),
+	}
 
-	addHealthRoutes(main)
-	addCounterRoutes(v1)
-	addCountRoutes(v1)
+	setDB()
+	setMiddlewares(r.router)
+
+	main := r.router.Group("")
+	v1 := r.router.Group("/v1")
+
+	r.addHealth(main)
+	r.addCounter(v1)
+	r.addCount(v1)
+
+	return r
+}
+
+// Run runs application with routes.
+func (r Routes) Run() error {
+	return r.router.Run(":80")
 }
 
 // setDB will create Database instance.

@@ -8,6 +8,8 @@ import (
 	"gorm.io/gorm"
 )
 
+const recordLimit = 1000
+
 // CountRepository is a repository for models.Count.
 type CountRepository struct {
 	DB *gorm.DB
@@ -28,6 +30,7 @@ func (r CountRepository) GroupByCounterNameAndTimeInterval(
 		Where("counters.name = ?", name).
 		Group(fmt.Sprintf("date_trunc('%s', counts.created_at)", interval)).
 		Order(fmt.Sprintf("date %s", order)).
+		Limit(recordLimit).
 		Find(&results).Error
 	if err != nil {
 		return results, err
