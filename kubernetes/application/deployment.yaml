@@ -32,12 +32,11 @@ spec:
         - name: registry-secret
       containers:
         - name: counter
-          image: ghcr.io/counterapi/counterapi:v0.7.0
-          command: [ "/bin/ash", "-c" ]
+          image: ghcr.io/counterapi/docs:v0.8.0
+          command: ["/bin/ash", "-c"]
           args:
             - >-
-              source /vault/secrets/rds;
-              counter
+              source /vault/secrets/rds; counter
           resources:
             limits:
               cpu: 150m
