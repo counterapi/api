@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: counter-ingress
+  name: counterapi-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/server-snippet: |
@@ -23,7 +23,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: counter-stable
+                name: counterapi-stable
                 port:
                   number: 80
     - host: api-preview.counterapi.dev
@@ -33,6 +33,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: counter-preview
+                name: counterapi-preview
                 port:
                   number: 80
