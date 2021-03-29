@@ -1,11 +1,13 @@
 export PATH := $(abspath ./vendor/bin):$(PATH)
 
-BASE_PACKAGE_NAME  = github.com/counterapi/counterapi
-GIT_VERSION = $(shell git describe --tags --always 2> /dev/null || echo 0.0.0)
-LDFLAGS            = -ldflags "-X $(BASE_PACKAGE_NAME)/pkg/info.Version=$(GIT_VERSION)"
-BUFFER            := $(shell mktemp)
-REPORT_DIR         = dist/report
-COVER_PROFILE      = $(REPORT_DIR)/coverage.out
+K8S_DEPLOYMENT_FILE  = kubernetes/application/deployment.yaml
+IMAGE_NAME  		 = ghcr.io/counterapi/counterapi
+BASE_PACKAGE_NAME    = github.com/counterapi/counterapi
+GIT_VERSION          = $(shell git describe --tags --always 2> /dev/null || echo 0.0.0)
+LDFLAGS              = -ldflags "-X $(BASE_PACKAGE_NAME)/pkg/info.Version=$(GIT_VERSION)"
+BUFFER               := $(shell mktemp)
+REPORT_DIR           = dist/report
+COVER_PROFILE        = $(REPORT_DIR)/coverage.out
 
 .PHONY: build
 build:
@@ -35,6 +37,10 @@ test:
 
 .PHONY: cut-tag
 cut-tag:
+	@echo "Commit $(version)"
+	yq eval '.spec.template.spec.containers[0].image = "$(IMAGE_NAME):$(version)"' -i $(K8S_DEPLOYMENT_FILE)
+	git commit -m "Bump to $(version)" $(K8S_DEPLOYMENT_FILE)
+	git push
 	@echo "Cutting $(version)"
 	git tag $(version)
 	git push origin $(version)
