@@ -24,6 +24,12 @@ type DownQuery struct {
 	Name string `form:"name" json:"name" binding:"required,alphanum"`
 }
 
+// SetQuery is query for Counter set params.
+type SetQuery struct {
+	Name  string `form:"name" json:"name" binding:"required,alphanum"`
+	Count uint   `form:"count" json:"count" binding:"required,numeric"`
+}
+
 // Up increases Counter.
 func (c CounterController) Up(ctx *gin.Context) {
 	var query UpQuery
@@ -87,6 +93,32 @@ func (c CounterController) Get(ctx *gin.Context) {
 	}
 
 	counter, err := c.Repository.GetByName(query.Name)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"code":    http.StatusBadRequest,
+			"message": err.Error(),
+		})
+
+		return
+	}
+
+	ctx.JSON(http.StatusOK, counter)
+}
+
+// Set sets Counter.
+func (c CounterController) Set(ctx *gin.Context) {
+	var query SetQuery
+
+	if err := ctx.ShouldBindWith(&query, binding.Query); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"code":    http.StatusBadRequest,
+			"message": err.Error(),
+		})
+
+		return
+	}
+
+	counter, err := c.Repository.SetByName(query.Name, query.Count)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"code":    http.StatusBadRequest,

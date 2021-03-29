@@ -8,7 +8,7 @@ import (
 type Counter struct {
 	ID        uint      `gorm:"primarykey" json:"id"`
 	Name      string    `gorm:"type:varchar(100);unique_index;not null;unique" json:"name"`
-	Count     int16     `json:"count"`
+	Count     uint      `json:"count"`
 	Counts    []Count   `json:"-"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`

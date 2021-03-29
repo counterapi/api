@@ -56,8 +56,8 @@ run-dev-db:
 
 .PHONY: set-db-variables
 set-db-variables:
-	export POSTGRES_HOST=localhost
-	export POSTGRES_PORT=5432
-	export POSTGRES_USER=postgres
-	export POSTGRES_DB=counter_api
-	export POSTGRES_PASSWORD=root
+	export DB_HOST=localhost
+	export DB_PORT=5432
+	export DB_USER=postgres
+	export DB_NAME=counter_api
+	export DB_PASSWORD=root

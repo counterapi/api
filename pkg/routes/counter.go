@@ -19,4 +19,5 @@ func (r Routes) addCounter(rg *gin.RouterGroup) {
 	route.GET("/up", counter.Up)
 	route.GET("/down", counter.Down)
 	route.GET("/get", counter.Get)
+	route.GET("/set", counter.Set)
 }
