@@ -18,6 +18,7 @@ spec:
         vault.hashicorp.com/agent-inject: "true"
         vault.hashicorp.com/role: "omegion"
         vault.hashicorp.com/agent-pre-populate-only: "true"
+        vault.hashicorp.com/auth-path: "auth/kubernetes/cluster-1"
         vault.hashicorp.com/agent-inject-secret-rds: "aws/rds/omegion-1"
         vault.hashicorp.com/agent-inject-template-rds: |
           {{ with secret "aws/rds/omegion-1" -}}
