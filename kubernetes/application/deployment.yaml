@@ -28,7 +28,7 @@ spec:
             export DB_HOST="{{ .Data.data.host }}"
           {{- end }}
     spec:
-      serviceAccountName: vault-auth
+      serviceAccountName: vault/vault-auth
       imagePullSecrets:
         - name: registry-secret
       containers:

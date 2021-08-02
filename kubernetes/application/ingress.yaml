@@ -14,7 +14,7 @@ spec:
     - hosts:
         - api.counterapi.dev
         - api-preview.counterapi.dev
-      secretName: cloudflare-tls
+      secretName: counterapi-dev-cloudflare-tls
   rules:
     - host: api.counterapi.dev
       http:
