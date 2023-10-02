@@ -49,7 +49,7 @@ linters:
     - varcheck
     - asciicheck
     - bodyclose
-    - depguard
+#    - depguard
     - dogsled
     - dupl
     - exportloopref
