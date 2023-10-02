@@ -22,16 +22,18 @@ jobs:
         run: |
           go get -v -t -d ./...
       - name: go test
-        run: go test -v -covermode=count -coverprofile=coverage.out ./...
+        run: go test -race -covermode atomic -coverprofile=covprofile ./...
+
+      - name: Install goveralls
+        run: go install github.com/mattn/goveralls@latest
 
       - name: Convert coverage.out to coverage.lcov
         uses: jandelgado/gcov2lcov-action@v1.0.9
 
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: coverage.lcov
+      - name: Send coverage
+        env:
+          COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: goveralls -coverprofile=covprofile -service=github
 
   vet:
     name: go vet and lint
