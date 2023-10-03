@@ -8,6 +8,7 @@ LDFLAGS              = -ldflags "-X $(BASE_PACKAGE_NAME)/pkg/info.Version=$(GIT_
 BUFFER               := $(shell mktemp)
 REPORT_DIR           = dist/report
 COVER_PROFILE        = $(REPORT_DIR)/coverage.out
+BINARY_NAME   		 = dist/counterapi
 
 .PHONY: build
 build:
