@@ -27,9 +27,6 @@ jobs:
       - name: Install goveralls
         run: go install github.com/mattn/goveralls@latest
 
-      - name: Convert coverage.out to coverage.lcov
-        uses: jandelgado/gcov2lcov-action@v1.0.9
-
       - name: Send coverage
         env:
           COVERALLS_TOKEN: ${{ secrets.GITHUB_TOKEN }}

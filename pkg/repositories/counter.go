@@ -2,7 +2,9 @@ package repositories
 
 import (
 	"errors"
+
 	"github.com/counterapi/counterapi/pkg/models"
+
 	"gorm.io/gorm"
 )
 
@@ -23,9 +25,7 @@ func (r CounterRepository) GetByName(namespace, name string) (models.Counter, er
 	if err := r.DB.
 		Joins("JOIN namespaces on counters.namespace_id = namespaces.id").
 		Where("namespaces.name = ?", namespace).
-		Preload("Namespace").
-		First(&counter, "counters.name = ?", name).Error; err != nil {
-
+		Preload("Namespace").First(&counter, "counters.name = ?", name).Error; err != nil {
 		return counter, err
 	}
 
@@ -43,29 +43,28 @@ func (r CounterRepository) Create(counter *models.Counter) error {
 
 // GetOrCreateByName get counter or create by name.
 func (r CounterRepository) GetOrCreateByName(namespace, name string) (models.Counter, error) {
+	//nolint:gosimple // It's okay to use literal here.
+	namespaceRepository := NamespaceRepository{r.DB}
+
 	counter, err := r.GetByName(namespace, name)
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			namespaceRepository := NamespaceRepository{r.DB}
-			ns, err := namespaceRepository.GetOrCreateByName(namespace)
-			if err != nil {
-				return counter, err
-			}
-
-			counter.Namespace = ns
-
-			err = r.Create(&counter)
-			if err != nil {
-				return counter, err
-			}
-
-			return counter, nil
-		}
-
-		return counter, err
+	if err == nil {
+		return counter, nil
 	}
 
-	return counter, nil
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		counter.Namespace, err = namespaceRepository.GetOrCreateByName(namespace)
+		if err != nil {
+			return counter, err
+		}
+
+		if err = r.Create(&counter); err != nil {
+			return counter, err
+		}
+
+		return counter, nil
+	}
+
+	return counter, err
 }
 
 // IncreaseByName increase models.Counter by name.

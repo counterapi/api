@@ -27,7 +27,6 @@ func NewRoutes() Routes {
 
 	r.addHealth(main)
 	r.addCounter(v1)
-	//r.addCount(v1)
 
 	return r
 }

@@ -2,7 +2,9 @@ package repositories
 
 import (
 	"errors"
+
 	"github.com/counterapi/counterapi/pkg/models"
+
 	"gorm.io/gorm"
 )
 
@@ -17,9 +19,7 @@ func (r NamespaceRepository) GetByName(name string) (models.Namespace, error) {
 		Name: name,
 	}
 
-	if err := r.DB.
-		First(&namespace, "namespaces.name = ?", name).Error; err != nil {
-
+	if err := r.DB.First(&namespace, "namespaces.name = ?", name).Error; err != nil {
 		return namespace, err
 	}
 
