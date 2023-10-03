@@ -35,10 +35,6 @@ test:
 
 .PHONY: cut-tag
 cut-tag:
-	@echo "Commit $(version)"
-	yq eval '.spec.template.spec.containers[0].image = "$(IMAGE_NAME):$(version)"' -i $(K8S_DEPLOYMENT_FILE)
-	git commit -m "Bump to $(version)" $(K8S_DEPLOYMENT_FILE)
-	git push
 	@echo "Cutting $(version)"
 	git tag $(version)
 	git push origin $(version)
