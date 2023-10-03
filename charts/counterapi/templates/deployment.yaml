@@ -45,6 +45,34 @@ spec:
             httpGet:
               path: /
               port: http
+          env:
+            {{- if .Values.argocd.secret.enabled }}
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_PORT
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_USER
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_NAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_PASSWORD
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

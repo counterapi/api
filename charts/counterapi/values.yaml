@@ -87,3 +87,7 @@ kargo:
     repoURL: https://github.com/counterapi/api
     appName: counterapi
     namespace: argocd
+
+argocd:
+  secret:
+    enabled: true
