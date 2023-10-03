@@ -44,7 +44,7 @@ spec:
       - appName: {{ .Values.kargo.argocd.appName }}-dev
         appNamespace: {{ .Values.kargo.argocd.namespace }}
         sourceUpdates:
-          - repoURL: {{ .Values.kargo.repoURL }}
+          - repoURL: {{ .Values.kargo.argocd.repoURL }}
             helm:
               images:
                 - image: {{ .Values.image.repository }}
