@@ -46,6 +46,8 @@ spec:
               path: /
               port: http
           env:
+            - name: DB_NAME
+              value: {{ .Values.database.name }}
             {{- if .Values.externalSecret.enabled }}
             - name: DB_HOST
               valueFrom:
@@ -62,11 +64,7 @@ spec:
                 secretKeyRef:
                   name: credentials
                   key: DB_USER
-            - name: DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: credentials
-                  key: DB_NAME
+
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:

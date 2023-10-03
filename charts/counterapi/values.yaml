@@ -4,6 +4,9 @@
 
 replicaCount: 1
 
+database:
+  name: counterapi_dev
+
 image:
   repository: ghcr.io/counterapi/api
   pullPolicy: IfNotPresent
