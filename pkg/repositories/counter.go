@@ -2,9 +2,7 @@ package repositories
 
 import (
 	"errors"
-
 	"github.com/counterapi/counterapi/pkg/models"
-
 	"gorm.io/gorm"
 )
 
@@ -14,16 +12,27 @@ type CounterRepository struct {
 }
 
 // GetByName get counter by name.
-func (r CounterRepository) GetByName(name string) (models.Counter, error) {
-	counter := models.Counter{Name: name}
-	if err := r.DB.Where("name = ?", name).First(&counter).Error; err != nil {
+func (r CounterRepository) GetByName(namespace, name string) (models.Counter, error) {
+	counter := models.Counter{
+		Name: name,
+		Namespace: models.Namespace{
+			Name: namespace,
+		},
+	}
+
+	if err := r.DB.
+		Joins("JOIN namespaces on counters.namespace_id = namespaces.id").
+		Where("namespaces.name = ?", namespace).
+		Preload("Namespace").
+		First(&counter, "counters.name = ?", name).Error; err != nil {
+
 		return counter, err
 	}
 
 	return counter, nil
 }
 
-// Create create counter.
+// Create creates counter.
 func (r CounterRepository) Create(counter *models.Counter) error {
 	if err := r.DB.Create(&counter).Error; err != nil {
 		return err
@@ -33,10 +42,18 @@ func (r CounterRepository) Create(counter *models.Counter) error {
 }
 
 // GetOrCreateByName get counter or create by name.
-func (r CounterRepository) GetOrCreateByName(name string) (models.Counter, error) {
-	counter, err := r.GetByName(name)
+func (r CounterRepository) GetOrCreateByName(namespace, name string) (models.Counter, error) {
+	counter, err := r.GetByName(namespace, name)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
+			namespaceRepository := NamespaceRepository{r.DB}
+			ns, err := namespaceRepository.GetOrCreateByName(namespace)
+			if err != nil {
+				return counter, err
+			}
+
+			counter.Namespace = ns
+
 			err = r.Create(&counter)
 			if err != nil {
 				return counter, err
@@ -52,9 +69,9 @@ func (r CounterRepository) GetOrCreateByName(name string) (models.Counter, error
 }
 
 // IncreaseByName increase models.Counter by name.
-func (r CounterRepository) IncreaseByName(name string) (models.Counter, error) {
+func (r CounterRepository) IncreaseByName(namespace, name string) (models.Counter, error) {
 	// Get counter if exist
-	counter, err := r.GetOrCreateByName(name)
+	counter, err := r.GetOrCreateByName(namespace, name)
 	if err != nil {
 		return counter, err
 	}
@@ -84,9 +101,9 @@ func (r CounterRepository) IncreaseByName(name string) (models.Counter, error) {
 }
 
 // DecreaseByName decrease models.Counter by name.
-func (r CounterRepository) DecreaseByName(name string) (models.Counter, error) {
+func (r CounterRepository) DecreaseByName(namespace, name string) (models.Counter, error) {
 	// Get counter if exist
-	counter, err := r.GetOrCreateByName(name)
+	counter, err := r.GetOrCreateByName(namespace, name)
 	if err != nil {
 		return counter, err
 	}
@@ -116,9 +133,9 @@ func (r CounterRepository) DecreaseByName(name string) (models.Counter, error) {
 }
 
 // SetByName sets models.Counter by name.
-func (r CounterRepository) SetByName(name string, count uint) (models.Counter, error) {
+func (r CounterRepository) SetByName(namespace, name string, count uint) (models.Counter, error) {
 	// Get counter if exist
-	counter, err := r.GetOrCreateByName(name)
+	counter, err := r.GetOrCreateByName(namespace, name)
 	if err != nil {
 		return counter, err
 	}

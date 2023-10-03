@@ -52,7 +52,7 @@ release: build-for-container
 
 .PHONY: run-dev
 run-dev:
-	gin --appPort 80 --port 8000
+	gin --appPort 80 --port 8000 -i
 
 .PHONY: run-dev-db
 run-dev-db:

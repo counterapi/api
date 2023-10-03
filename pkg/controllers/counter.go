@@ -15,19 +15,14 @@ type CounterController struct {
 }
 
 // UpQuery is query for Counter up params.
-type UpQuery struct {
-	Name string `form:"name" json:"name" binding:"required,alphanum,max=100"`
-}
+type UpQuery struct{}
 
 // DownQuery is query for Counter down params.
-type DownQuery struct {
-	Name string `form:"name" json:"name" binding:"required,alphanum"`
-}
+type DownQuery struct{}
 
 // SetQuery is query for Counter set params.
 type SetQuery struct {
-	Name  string `form:"name" json:"name" binding:"required,alphanum"`
-	Count uint   `form:"count" json:"count" binding:"required,numeric"`
+	Count uint `form:"count" json:"count" binding:"required,numeric"`
 }
 
 // Up increases Counter.
@@ -43,7 +38,7 @@ func (c CounterController) Up(ctx *gin.Context) {
 		return
 	}
 
-	counter, err := c.Repository.IncreaseByName(query.Name)
+	counter, err := c.Repository.IncreaseByName(ctx.Param("namespace"), ctx.Param("counter"))
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"code":    http.StatusBadRequest,
@@ -66,7 +61,7 @@ func (c CounterController) Down(ctx *gin.Context) {
 		return
 	}
 
-	counter, err := c.Repository.DecreaseByName(query.Name)
+	counter, err := c.Repository.DecreaseByName(ctx.Param("namespace"), ctx.Param("counter"))
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"code":    http.StatusBadRequest,
@@ -92,7 +87,7 @@ func (c CounterController) Get(ctx *gin.Context) {
 		return
 	}
 
-	counter, err := c.Repository.GetByName(query.Name)
+	counter, err := c.Repository.GetByName(ctx.Param("namespace"), ctx.Param("counter"))
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"code":    http.StatusBadRequest,
@@ -118,7 +113,7 @@ func (c CounterController) Set(ctx *gin.Context) {
 		return
 	}
 
-	counter, err := c.Repository.SetByName(query.Name, query.Count)
+	counter, err := c.Repository.SetByName(ctx.Param("namespace"), ctx.Param("counter"), query.Count)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"code":    http.StatusBadRequest,

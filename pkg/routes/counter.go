@@ -10,7 +10,7 @@ import (
 
 // addCounter is for counter route group.
 func (r Routes) addCounter(rg *gin.RouterGroup) {
-	route := rg.Group("/")
+	route := rg.Group("/:namespace/:counter/")
 
 	counter := controllers.CounterController{
 		Repository: repositories.CounterRepository{DB: config.DB},
