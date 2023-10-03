@@ -35,4 +35,4 @@ COPY --from=builder /app/dist/counterapi /bin/counterapi
 
 EXPOSE 80
 
-ENTRYPOINT ["counter"]
+ENTRYPOINT ["counterapi"]
