@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/counterapi/counterapi
+  repository: ghcr.io/counterapi/api
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -80,3 +80,10 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+kargo:
+  enabled: true
+  argocd:
+    repoURL: https://github.com/counterapi/api
+    appName: counterapi
+    namespace: argocd
