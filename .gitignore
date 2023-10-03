@@ -22,3 +22,8 @@ gin-bin
 
 # Go
 dist
+
+# ENV
+.env
+.env.dev
+.env.production
