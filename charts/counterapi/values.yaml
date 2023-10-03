@@ -88,6 +88,10 @@ kargo:
     appName: counterapi
     namespace: argocd
 
-argocd:
-  secret:
+externalSecret:
     enabled: true
+    secretStore:
+      name: aws-parameter-store
+      kind: ClusterSecretStore
+    remoteRef:
+      key: /k8s/shared/database

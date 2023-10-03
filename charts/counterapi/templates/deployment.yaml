@@ -46,7 +46,7 @@ spec:
               path: /
               port: http
           env:
-            {{- if .Values.argocd.secret.enabled }}
+            {{- if .Values.externalSecret.enabled }}
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
