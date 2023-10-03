@@ -7,11 +7,11 @@
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/github/workflow/status/counterapi/counter/Code%20Check" alt="Check"></a>
-    <img src="https://coveralls.io/repos/github/counterapi/counter/badge.svg?branch=master" alt="Coverall"></a>
-    <img src="https://goreportcard.com/badge/github.com/counterapi/counter" alt="Report"></a>
+    <img src="https://img.shields.io/github/workflow/status/counterapi/api/Code%20Check" alt="Check"></a>
+    <img src="https://coveralls.io/repos/github/counterapi/api/badge.svg?branch=master" alt="Coverall"></a>
+    <img src="https://goreportcard.com/badge/github.com/counterapi/api" alt="Report"></a>
     <a href="http://pkg.go.dev/github.com/counterapi/counter"><img src="https://img.shields.io/badge/pkg.go.dev-doc-blue" alt="Doc"></a>
-    <a href="https://github.com/counterapi/counter/blob/master/LICENSE"><img src="https://img.shields.io/github/license/counterapi/counter" alt="License"></a>
+    <a href="https://github.com/counterapi/api/blob/master/LICENSE"><img src="https://img.shields.io/github/license/counterapi/counter" alt="License"></a>
 </p>
 
 Go Library for Counter API.
