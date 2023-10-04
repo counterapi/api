@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// addCounter is for counter route group.
+// addCounter is for counter's route group.
 func (r Routes) addCounter(rg *gin.RouterGroup) {
 	route := rg.Group("/:namespace/:counter/")
 
@@ -16,8 +16,8 @@ func (r Routes) addCounter(rg *gin.RouterGroup) {
 		Repository: repositories.CounterRepository{DB: config.DB},
 	}
 
+	route.GET("/", counter.Get)
 	route.GET("/up", counter.Up)
 	route.GET("/down", counter.Down)
-	route.GET("/get", counter.Get)
 	route.GET("/set", counter.Set)
 }

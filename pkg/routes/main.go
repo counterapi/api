@@ -25,8 +25,10 @@ func NewRoutes() Routes {
 	main := r.router.Group("")
 	v1 := r.router.Group("/v1")
 
+	r.addHome(main)
 	r.addHealth(main)
 	r.addCounter(v1)
+	r.addErrors()
 
 	return r
 }

@@ -11,7 +11,7 @@ import (
 
 const (
 	limitInterval = time.Second
-	limitCapacity = 2
+	limitCapacity = 10
 )
 
 // RateKeyFunc is a function for rate key.
