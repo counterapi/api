@@ -4,26 +4,24 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-)
+	"github.com/counterapi/counterapi/pkg"
 
-const (
-	errorMessageFormat = "%s. Visit https://docs.counterapi.dev for more information."
+	"github.com/gin-gonic/gin"
 )
 
 // addErrors is for error route group.
 func (r Routes) addErrors() {
 	r.router.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{
-			"code":    "PAGE_NOT_FOUND",
-			"message": fmt.Sprintf(errorMessageFormat, "page not found"),
+			"code":    "404",
+			"message": fmt.Sprintf(pkg.ErrorMessageFormat, "page not found"),
 		})
 	})
 
 	r.router.NoMethod(func(c *gin.Context) {
 		c.JSON(http.StatusMethodNotAllowed, gin.H{
-			"code":    "METHOD_NOT_ALLOWED",
-			"message": fmt.Sprintf(errorMessageFormat, "method not allowed"),
+			"code":    "405",
+			"message": fmt.Sprintf(pkg.ErrorMessageFormat, "method not allowed"),
 		})
 	})
 }

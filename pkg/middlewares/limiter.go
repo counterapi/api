@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/counterapi/counterapi/pkg"
+
 	"github.com/gin-gonic/gin"
 	"github.com/juju/ratelimit"
 )
@@ -17,7 +19,7 @@ const (
 // RateKeyFunc is a function for rate key.
 type RateKeyFunc func(ctx *gin.Context) (string, error)
 
-// RateLimiterMiddleware is a middleware for Gin.
+// RateLimiterMiddleware is middleware for Gin.
 type RateLimiterMiddleware struct {
 	fillInterval time.Duration
 	capacity     int64
@@ -47,11 +49,10 @@ func (r *RateLimiterMiddleware) Middleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		limiter, err := r.get(ctx)
 		if err != nil || limiter.TakeAvailable(1) == 0 {
-			if err == nil {
-				err = TooManyRequestError{}
-			}
-
-			_ = ctx.AbortWithError(http.StatusTooManyRequests, err)
+			ctx.AbortWithStatusJSON(http.StatusTooManyRequests, gin.H{
+				"code":    "429",
+				"message": fmt.Sprintf(pkg.ErrorMessageFormat, "too many requests"),
+			})
 		} else {
 			ctx.Writer.Header().Set("X-RateLimit-Remaining", fmt.Sprintf("%d", limiter.Available()))
 			ctx.Writer.Header().Set("X-RateLimit-Limit", fmt.Sprintf("%d", limiter.Capacity()))
