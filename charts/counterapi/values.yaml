@@ -106,7 +106,8 @@ redis:
     repository: redis
     pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "5.0.4-alpine"
+    tag: "7.2.1-alpine"
 
   service:
+    type: ClusterIP
     port: 6379

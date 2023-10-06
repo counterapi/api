@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "counterapi.labels" . | nindent 4 }}-redis
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.redis.service.type }}
   ports:
     - port: {{ .Values.redis.service.port }}
       targetPort: {{ .Values.redis.service.port }}
