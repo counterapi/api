@@ -24,7 +24,7 @@ spec:
           image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 6379
+            - containerPort: {{ .Values.redis.service.port }}
               name: redis
           volumeMounts:
             - name: {{ include "counterapi.fullname" . }}-redis-data

@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: {{ include "counterapi.fullname" . }}-redis
   labels:
-    {{- include "counterapi.labels" . | nindent 4 }}-redis
+    {{- include "counterapi.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.redis.service.type }}
   ports:
@@ -13,5 +13,6 @@ spec:
       protocol: TCP
       name: redis
   selector:
-    {{- include "counterapi.selectorLabels" . | nindent 4 }}-redis
-  {{- end }}
+    app: {{ include "counterapi.fullname" . }}-redis
+    {{- include "counterapi.selectorLabels" . | nindent 4 }}
+{{- end }}
