@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ include "counterapi.fullname" . }}-redis
+  labels:
+    app: {{ include "counterapi.fullname" . }}-redis
+    {{- include "counterapi.labels" . | nindent 4 }}
 spec:
   serviceName: {{ include "counterapi.fullname" . }}-redis
   replicas: 3
