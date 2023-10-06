@@ -9,3 +9,5 @@ data:
   REDIS_PORT: "6379"
   DB_HOST: "{{ .Values.pgbouncer.host }}"
   DB_PORT: "{{ .Values.pgbouncer.port }}"
+  DB_USER: ""
+  DB_PASSWORD: ""
