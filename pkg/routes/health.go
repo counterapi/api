@@ -2,7 +2,6 @@ package routes
 
 import (
 	"github.com/counterapi/counterapi/pkg/controllers"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,5 +11,7 @@ func (r Routes) addHealth(rg *gin.RouterGroup) {
 
 	health := new(controllers.HealthController)
 
-	route.GET("/", health.Status)
+	route.GET("/",
+		health.Status,
+	)
 }

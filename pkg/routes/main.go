@@ -3,20 +3,21 @@ package routes
 import (
 	"github.com/counterapi/counterapi/pkg/config"
 	"github.com/counterapi/counterapi/pkg/middlewares"
-
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 // Routes is main route struct.
 type Routes struct {
-	router *gin.Engine
+	router      *gin.Engine
+	cacheConfig *config.RedisCache
 }
 
 // NewRoutes generates Routes for the application.
 func NewRoutes() Routes {
 	r := Routes{
-		router: gin.Default(),
+		router:      gin.Default(),
+		cacheConfig: config.SetupRedisCache(),
 	}
 
 	setDB()

@@ -2,11 +2,14 @@ package repositories
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/counterapi/counterapi/pkg/models"
 
 	"gorm.io/gorm"
 )
+
+const countRecordLimit = 1000
 
 // CounterRepository is a repository for models.Counter.
 type CounterRepository struct {
@@ -161,4 +164,31 @@ func (r CounterRepository) SetByName(namespace, name string, count uint) (models
 	}
 
 	return counter, nil
+}
+
+// GroupByCounterNameAndTimeInterval returns stats of given models.Counter and models.Namespace.
+func (r CounterRepository) GroupByCounterNameAndTimeInterval(
+	namespace string,
+	name string,
+	interval string,
+	order string,
+) ([]models.CountGroupResult, error) {
+	var results []models.CountGroupResult
+
+	err := r.DB.
+		Model(&models.Count{}).
+		Select(fmt.Sprintf("count(*) as count, date_trunc('%s', counts.created_at) as date", interval)).
+		InnerJoins("JOIN counters on counters.id=counts.counter_id").
+		InnerJoins("JOIN namespaces on counters.namespace_id = namespaces.id").
+		Where("counters.name = ?", name).
+		Where("namespaces.name = ?", namespace).
+		Group(fmt.Sprintf("date_trunc('%s', counts.created_at)", interval)).
+		Order(fmt.Sprintf("date %s", order)).
+		Limit(countRecordLimit).
+		Find(&results).Error
+	if err != nil {
+		return results, err
+	}
+
+	return results, nil
 }

@@ -25,6 +25,12 @@ type SetQuery struct {
 	Count uint `form:"count" json:"count" binding:"required,numeric"`
 }
 
+// GetCountsQuery is query for Count params.
+type GetCountsQuery struct {
+	GroupBy string `form:"group_by" json:"group_by" binding:"required,oneof=hour day week month year"`
+	OrderBy string `form:"order_by" json:"order_by" binding:""`
+}
+
 // Up increases Counter.
 func (c CounterController) Up(ctx *gin.Context) {
 	var query UpQuery
@@ -124,4 +130,26 @@ func (c CounterController) Set(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, counter)
+}
+
+// GetCounts gets counts for a counter.
+func (c CounterController) GetCounts(ctx *gin.Context) {
+	var query GetCountsQuery
+
+	if err := ctx.ShouldBindWith(&query, binding.Query); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"code":    http.StatusBadRequest,
+			"message": err.Error(),
+		})
+
+		return
+	}
+
+	counts, _ := c.Repository.GroupByCounterNameAndTimeInterval(
+		ctx.Param("namespace"),
+		ctx.Param("counter"),
+		query.GroupBy, query.OrderBy,
+	)
+
+	ctx.JSON(http.StatusOK, counts)
 }
