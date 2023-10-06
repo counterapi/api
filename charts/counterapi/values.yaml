@@ -98,3 +98,14 @@ externalSecret:
       kind: ClusterSecretStore
     remoteRef:
       key: /k8s/shared/database
+
+redis:
+  enabled: true
+  image:
+    repository: redis
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "5.0.4-alpine"
+
+  service:
+    port: 6379

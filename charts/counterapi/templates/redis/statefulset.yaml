@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "counterapi.fullname" . }}-redis
+spec:
+  serviceName: {{ include "counterapi.fullname" . }}-redis
+  replicas: 3
+  selector:
+    matchLabels:
+      app: {{ include "counterapi.fullname" . }}-redis
+      {{- include "counterapi.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "counterapi.fullname" . }}-redis
+        {{- include "counterapi.selectorLabels" . | nindent 6 }}
+    spec:
+      containers:
+        - name: redis
+          image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
+              name: redis
+          volumeMounts:
+            - name: {{ include "counterapi.fullname" . }}-redis-data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ include "counterapi.fullname" . }}-redis-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
