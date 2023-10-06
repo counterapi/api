@@ -5,5 +5,5 @@ metadata:
   labels:
     {{- include "counterapi.labels" . | nindent 4 }}
 data:
-  REDIS_HOST: "{{ include "counterapi.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local"
+  REDIS_HOST: "{{ include "counterapi.fullname" . }}-redis.{{ .Release.Namespace }}.svc.cluster.local"
   REDIS_PORT: "6379"
