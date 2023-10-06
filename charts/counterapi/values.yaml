@@ -92,7 +92,7 @@ kargo:
     namespace: argocd
 
 externalSecret:
-    enabled: true
+    enabled: false
     secretStore:
       name: aws-parameter-store
       kind: ClusterSecretStore
@@ -105,9 +105,13 @@ redis:
   image:
     repository: redis
     pullPolicy: Always
-    # Overrides the image tag whose default is the chart appVersion.
     tag: "7.2.1-alpine"
 
   service:
     type: ClusterIP
     port: 6379
+
+pgbouncer:
+  enabled: true
+  host: pgbouncer.pgbouncer.svc.cluster.local
+  port: 5432

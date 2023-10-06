@@ -58,6 +58,18 @@ spec:
                 configMapKeyRef:
                   name: {{ include "counterapi.fullname" . }}
                   key: REDIS_PORT
+            {{- if .Values.pgbouncer.enabled }}
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "counterapi.fullname" . }}
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "counterapi.fullname" . }}
+                  key: DB_PORT
+            {{- end}}
             {{- if .Values.externalSecret.enabled }}
             - name: DB_HOST
               valueFrom:
