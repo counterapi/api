@@ -87,6 +87,11 @@ spec:
                 configMapKeyRef:
                   name: {{ include "counterapi.fullname" . }}
                   key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "counterapi.fullname" . }}
+                  key: DB_PORT
             {{- end}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

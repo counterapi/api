@@ -6,7 +6,6 @@ replicaCount: 1
 
 database:
   name: counterapi_dev
-  user: ""
 
 image:
   repository: ghcr.io/counterapi/api
@@ -93,7 +92,7 @@ kargo:
     namespace: argocd
 
 externalSecret:
-    enabled: false
+    enabled: true
     secretStore:
       name: aws-parameter-store
       kind: ClusterSecretStore
@@ -115,3 +114,4 @@ redis:
 pgbouncer:
   enabled: true
   host: pgbouncer.pgbouncer.svc.cluster.local
+  port: 5432
