@@ -16,7 +16,7 @@ spec:
     metadata:
       labels:
         app: {{ include "counterapi.fullname" . }}-redis
-        {{- include "counterapi.selectorLabels" . | nindent 6 }}
+        {{- include "counterapi.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: redis
