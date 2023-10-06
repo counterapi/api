@@ -115,5 +115,3 @@ redis:
 pgbouncer:
   enabled: true
   host: pgbouncer.pgbouncer.svc.cluster.local
-  port: 5432
-  user: ""

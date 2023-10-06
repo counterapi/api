@@ -59,6 +59,13 @@ spec:
                 configMapKeyRef:
                   name: {{ include "counterapi.fullname" . }}
                   key: REDIS_PORT
+            {{- if .Values.externalSecret.enabled }}
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_HOST
+            {{- end }}
             {{- if .Values.pgbouncer.enabled }}
             - name: DB_HOST
               valueFrom:
@@ -70,34 +77,7 @@ spec:
                 configMapKeyRef:
                   name: {{ include "counterapi.fullname" . }}
                   key: DB_PORT
-            - name: DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "counterapi.fullname" . }}
-                  key: DB_USER
             {{- end}}
-            {{- if .Values.externalSecret.enabled }}
-            - name: DB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: credentials
-                  key: DB_HOST
-            - name: DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: credentials
-                  key: DB_PORT
-            - name: DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: credentials
-                  key: DB_USER
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: credentials
-                  key: DB_PASSWORD
-            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
