@@ -59,7 +59,8 @@ spec:
                 configMapKeyRef:
                   name: {{ include "counterapi.fullname" . }}
                   key: REDIS_PORT
-            {{- if .Values.externalSecret.enabled }}
+            {{- if and .Values.externalSecret.enabled }}
+            {{- if not and .Values.pgbouncer.enabled }}
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
@@ -70,6 +71,9 @@ spec:
                 secretKeyRef:
                   name: credentials
                   key: DB_PORT
+            {{- end}}
+            {{- end}}
+            {{- if .Values.externalSecret.enabled }}
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
