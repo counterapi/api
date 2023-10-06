@@ -70,6 +70,11 @@ spec:
                 configMapKeyRef:
                   name: {{ include "counterapi.fullname" . }}
                   key: DB_PORT
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "counterapi.fullname" . }}
+                  key: DB_USER
             {{- end}}
             {{- if .Values.externalSecret.enabled }}
             - name: DB_HOST

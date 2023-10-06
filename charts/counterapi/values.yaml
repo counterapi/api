@@ -6,6 +6,7 @@ replicaCount: 1
 
 database:
   name: counterapi_dev
+  user: ""
 
 image:
   repository: ghcr.io/counterapi/api
@@ -115,3 +116,4 @@ pgbouncer:
   enabled: true
   host: pgbouncer.pgbouncer.svc.cluster.local
   port: 5432
+  user: ""
