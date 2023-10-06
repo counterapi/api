@@ -65,6 +65,21 @@ spec:
                 secretKeyRef:
                   name: credentials
                   key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_PORT
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: DB_PASSWORD
             {{- end }}
             {{- if .Values.pgbouncer.enabled }}
             - name: DB_HOST
@@ -72,11 +87,6 @@ spec:
                 configMapKeyRef:
                   name: {{ include "counterapi.fullname" . }}
                   key: DB_HOST
-            - name: DB_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "counterapi.fullname" . }}
-                  key: DB_PORT
             {{- end}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
