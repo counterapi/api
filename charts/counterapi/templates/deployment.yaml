@@ -48,6 +48,16 @@ spec:
           env:
             - name: DB_NAME
               value: {{ .Values.database.name }}
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "counterapi.fullname" . }}
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "counterapi.fullname" . }}
+                  key: REDIS_PORT
             {{- if .Values.externalSecret.enabled }}
             - name: DB_HOST
               valueFrom:
@@ -64,7 +74,6 @@ spec:
                 secretKeyRef:
                   name: credentials
                   key: DB_USER
-
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
