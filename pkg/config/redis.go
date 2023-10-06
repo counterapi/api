@@ -2,10 +2,13 @@ package config
 
 import (
 	"fmt"
-	"github.com/chenyahui/gin-cache/persist"
-	"github.com/go-redis/redis/v8"
 	"os"
 	"time"
+
+	"github.com/counterapi/counterapi/pkg"
+
+	"github.com/chenyahui/gin-cache/persist"
+	"github.com/go-redis/redis/v8"
 )
 
 // RedisCache is a config struct for redis cache.
@@ -25,6 +28,6 @@ func SetupRedisCache() *RedisCache {
 				os.Getenv("REDIS_PORT"),
 			),
 		})),
-		DefaultCacheTime: 10 * time.Second,
+		DefaultCacheTime: pkg.DefaultCacheTime,
 	}
 }

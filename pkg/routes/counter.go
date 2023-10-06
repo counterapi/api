@@ -1,12 +1,14 @@
 package routes
 
 import (
-	cache "github.com/chenyahui/gin-cache"
+	"time"
+
 	"github.com/counterapi/counterapi/pkg/config"
 	"github.com/counterapi/counterapi/pkg/controllers"
 	"github.com/counterapi/counterapi/pkg/repositories"
+
+	cache "github.com/chenyahui/gin-cache"
 	"github.com/gin-gonic/gin"
-	"time"
 )
 
 // addCounter is for counter's route group.
