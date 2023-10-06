@@ -60,7 +60,7 @@ spec:
                   name: {{ include "counterapi.fullname" . }}
                   key: REDIS_PORT
             {{- if .Values.externalSecret.enabled }}
-            {{- if not and .Values.pgbouncer.enabled }}
+            {{- if not .Values.pgbouncer.enabled }}
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
