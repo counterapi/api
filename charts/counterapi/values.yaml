@@ -96,7 +96,7 @@ kargo:
     namespace: argocd
 
 externalSecret:
-    enabled: true
+    enabled: false
     secretStore:
       name: aws-parameter-store
       kind: ClusterSecretStore
