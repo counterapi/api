@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/counterapi/counterapi/pkg/models"
+	"github.com/counterapi/api/pkg/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

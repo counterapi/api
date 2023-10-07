@@ -2,7 +2,7 @@ export PATH := $(abspath ./vendor/bin):$(PATH)
 
 K8S_DEPLOYMENT_FILE  = kubernetes/application/deployment.yaml
 IMAGE_NAME  		 = ghcr.io/counterapi/counterapi
-BASE_PACKAGE_NAME    = github.com/counterapi/counterapi
+BASE_PACKAGE_NAME    = github.com/counterapi/api
 GIT_VERSION          = $(shell git describe --tags --always 2> /dev/null || echo 0.0.0)
 LDFLAGS              = -ldflags "-X $(BASE_PACKAGE_NAME)/pkg/info.Version=$(GIT_VERSION)"
 BUFFER               := $(shell mktemp)

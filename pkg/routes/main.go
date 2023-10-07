@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"github.com/counterapi/counterapi/pkg/config"
-	"github.com/counterapi/counterapi/pkg/middlewares"
+	"github.com/counterapi/api/pkg/config"
+	"github.com/counterapi/api/pkg/middlewares"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"

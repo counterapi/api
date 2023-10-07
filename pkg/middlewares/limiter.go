@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/counterapi/counterapi/pkg"
+	"github.com/counterapi/api/pkg"
 
 	"github.com/gin-gonic/gin"
 	"github.com/juju/ratelimit"

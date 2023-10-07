@@ -3,9 +3,9 @@ package routes
 import (
 	"time"
 
-	"github.com/counterapi/counterapi/pkg/config"
-	"github.com/counterapi/counterapi/pkg/controllers"
-	"github.com/counterapi/counterapi/pkg/repositories"
+	"github.com/counterapi/api/pkg/config"
+	"github.com/counterapi/api/pkg/controllers"
+	"github.com/counterapi/api/pkg/repositories"
 
 	cache "github.com/chenyahui/gin-cache"
 	"github.com/gin-gonic/gin"

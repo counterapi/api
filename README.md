@@ -47,4 +47,4 @@ docker run -ti \
 
 ## License
 
-[MIT](https://github.com/counterapi/counterapi/blob/master/LICENSE)
+[MIT](https://github.com/counterapi/api/blob/master/LICENSE)

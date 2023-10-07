@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/counterapi/counterapi/pkg/controllers"
+	"github.com/counterapi/api/pkg/controllers"
 
 	"github.com/gin-gonic/gin"
 )

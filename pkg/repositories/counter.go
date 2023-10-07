@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/counterapi/counterapi/pkg/models"
+	"github.com/counterapi/api/pkg/models"
 
 	"gorm.io/gorm"
 )

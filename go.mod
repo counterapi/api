@@ -1,4 +1,4 @@
-module github.com/counterapi/counterapi
+module github.com/counterapi/api
 
 go 1.21
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/counterapi/counterapi/pkg"
+	"github.com/counterapi/api/pkg"
 
 	"github.com/gin-gonic/gin"
 )

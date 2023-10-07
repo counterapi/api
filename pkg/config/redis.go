@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/counterapi/counterapi/pkg"
+	"github.com/counterapi/api/pkg"
 
 	"github.com/chenyahui/gin-cache/persist"
 	"github.com/go-redis/redis/v8"

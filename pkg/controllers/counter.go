@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/counterapi/counterapi/pkg/repositories"
+	"github.com/counterapi/api/pkg/repositories"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"

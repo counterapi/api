@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/counterapi/counterapi/pkg/routes"
+	"github.com/counterapi/api/pkg/routes"
 )
 
 func main() {
