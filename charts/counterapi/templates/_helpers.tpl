@@ -65,9 +65,5 @@ Create the name of the service account to use
 Define ConfigMap name to read DB creds.
 */}}
 {{- define "counterapi.configMapName" -}}
-{{- if .Values.configMapName }}
-{{- .Values.configMapName }}
-{{- else }}
-{{ include "counterapi.fullname" . }}
-{{- end }}
+{{- default include "counterapi.fullname" . .Values.configMapName }}
 {{- end }}
