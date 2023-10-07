@@ -47,8 +47,6 @@ spec:
               path: /health
               port: http
           envFrom:
-            - secretRef:
-                name: {{ include "counterapi.secretName" . }}
             - configMapRef:
                 name: {{ include "counterapi.configMapName" . }}
           resources:
