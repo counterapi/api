@@ -8,6 +8,7 @@ configMapName: ""
 
 database:
   name: counterapi_dev
+  user: ""
 
 image:
   repository: ghcr.io/counterapi/api
