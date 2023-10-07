@@ -136,6 +136,8 @@ func (c CounterController) Set(ctx *gin.Context) {
 func (c CounterController) GetCounts(ctx *gin.Context) {
 	var query GetCountsQuery
 
+	query.GroupBy = "day"
+
 	if err := ctx.ShouldBindWith(&query, binding.Query); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"code":    http.StatusBadRequest,

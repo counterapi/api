@@ -110,6 +110,11 @@ func (r CounterRepository) DecreaseByName(namespace, name string) (models.Counte
 		return counter, err
 	}
 
+	// Do nothing if counter is zero
+	if counter.Count == 0 {
+		return counter, nil
+	}
+
 	err = r.DB.Transaction(func(tx *gorm.DB) error {
 		// Increment Counter
 		if err = tx.Model(&counter).Update("count", counter.Count-1).Error; err != nil {
