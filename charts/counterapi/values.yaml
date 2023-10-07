@@ -5,6 +5,7 @@
 replicaCount: 1
 
 configMapName: ""
+secretName: ""
 
 database:
   name: counterapi_dev
@@ -95,7 +96,7 @@ kargo:
     namespace: argocd
 
 externalSecret:
-    enabled: false
+    enabled: true
     secretStore:
       name: aws-parameter-store
       kind: ClusterSecretStore

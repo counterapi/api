@@ -67,3 +67,10 @@ Define ConfigMap name to read DB creds.
 {{- define "counterapi.configMapName" -}}
 {{- default (include "counterapi.fullname" .) .Values.configMapName }}
 {{- end }}
+
+{{/*
+Define Secret name to read DB creds.
+*/}}
+{{- define "counterapi.secretName" -}}
+{{- default (include "counterapi.fullname" .) .Values.secretName }}
+{{- end }}
