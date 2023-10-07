@@ -5,7 +5,6 @@
 replicaCount: 1
 
 configMapName: ""
-secretName: ""
 
 database:
   name: counterapi_dev
