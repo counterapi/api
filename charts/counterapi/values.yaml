@@ -87,13 +87,6 @@ tolerations: []
 
 affinity: {}
 
-kargo:
-  enabled: true
-  argocd:
-    repoURL: https://github.com/counterapi/api
-    appName: counterapi
-    namespace: argocd
-
 externalSecret:
     enabled: false
     secretStore:
