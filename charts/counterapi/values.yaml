@@ -56,7 +56,7 @@ ingress:
     - host: api.counterapi.dev
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
