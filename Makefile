@@ -44,12 +44,12 @@ release: build-for-container
 	docker tag counter:latest counterapi/counterapi:$(GIT_VERSION)
 	docker push counterapi/counter:$(GIT_VERSION)
 
-.PHONY: run-dev
-run-dev:
+.PHONY: dev
+dev:
 	gin --appPort 80 --port 8000 -i
 
-.PHONY: run-dev-db
-run-dev-db:
+.PHONY: dev-db
+dev-db:
 	docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=root -d postgres
 
 .PHONY: set-db-variables
