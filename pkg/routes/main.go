@@ -29,6 +29,7 @@ func NewRoutes() Routes {
 
 	r.addHome(main)
 	r.addHealth(main)
+	r.addMetric(main)
 	r.addCounter(v1)
 	r.addErrors()
 

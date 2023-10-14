@@ -35,6 +35,39 @@ func (r CounterRepository) GetByName(namespace, name string) (models.Counter, er
 	return counter, nil
 }
 
+// CountCounters counts counters.
+func (r CounterRepository) CountCounters() (int64, error) {
+	var count int64
+
+	if err := r.DB.Model(&models.Counter{}).Count(&count).Error; err != nil {
+		return count, err
+	}
+
+	return count, nil
+}
+
+// CountCounts counts counts.
+func (r CounterRepository) CountCounts() (int64, error) {
+	var count int64
+
+	if err := r.DB.Model(&models.Count{}).Count(&count).Error; err != nil {
+		return count, err
+	}
+
+	return count, nil
+}
+
+// CountNamespaces counts namespaces.
+func (r CounterRepository) CountNamespaces() (int64, error) {
+	var count int64
+
+	if err := r.DB.Model(&models.Namespace{}).Count(&count).Error; err != nil {
+		return count, err
+	}
+
+	return count, nil
+}
+
 // Create creates counter.
 func (r CounterRepository) Create(counter *models.Counter) error {
 	if err := r.DB.Create(&counter).Error; err != nil {
