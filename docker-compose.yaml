@@ -1,0 +1,62 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    networks:
+      - counterapi
+    depends_on:
+      - database
+      - redis
+      - prometheus
+    environment:
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=postgres
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+    networks:
+      - counterapi
+
+  database:
+    image: postgres:16.0-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - counterapi:/var/lib/postgresql/data
+    networks:
+      - counterapi
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - counterapi:/redis/data
+    networks:
+      - counterapi
+
+networks:
+  counterapi:
+    driver: bridge
+
+volumes:
+  counterapi:
+    driver: local

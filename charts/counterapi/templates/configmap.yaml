@@ -11,3 +11,6 @@ data:
   DB_USER: "{{ .Values.database.user }}"
   DB_HOST: "{{ .Values.pgbouncer.host }}"
   DB_PORT: "{{ .Values.pgbouncer.port }}"
+  METRICS_BASIC_AUTH: "{{ .Values.metrics.authentication.enabled }}"
+  METRICS_BASIC_AUTH_USERNAME: "{{ .Values.metrics.authentication.username }}"
+  METRICS_BASIC_AUTH_PASSWORD: "{{ .Values.metrics.authentication.password }}"
