@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: {{ include "counterapi.fullname" . }}
   labels:
+    app: {{ include "counterapi.fullname" . }}-api
     {{- include "counterapi.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
@@ -12,4 +13,5 @@ spec:
       protocol: TCP
       name: http
   selector:
+    app: {{ include "counterapi.fullname" . }}-api
     {{- include "counterapi.selectorLabels" . | nindent 4 }}
