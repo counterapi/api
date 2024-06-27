@@ -7,8 +7,11 @@ replicaCount: 1
 configMapName: ""
 
 database:
-  name: counterapi_dev
+  name: ""
   user: ""
+  password: ""
+  host: ""
+  port: 5432
 
 image:
   repository: ghcr.io/counterapi/api
@@ -106,11 +109,6 @@ redis:
   service:
     type: ClusterIP
     port: 6379
-
-pgbouncer:
-  enabled: true
-  host: pgbouncer.pgbouncer.svc.cluster.local
-  port: 5432
 
 metrics:
   authentication:
