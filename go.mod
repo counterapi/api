@@ -3,7 +3,7 @@ module github.com/counterapi/api
 go 1.21
 
 require (
-	github.com/chenyahui/gin-cache v1.8.1
+	github.com/chenyahui/gin-cache v1.9.0
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-redis/redis/v8 v8.11.5
