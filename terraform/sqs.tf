@@ -15,23 +15,23 @@ resource "aws_sqs_queue_policy" "example_queue_policy" {
 
   policy = jsonencode(
     {
-      "Version": "2012-10-17",
-      "Id": "sqspolicy",
-      "Statement": [
+      "Version" : "2012-10-17",
+      "Id" : "sqspolicy",
+      "Statement" : [
         {
-          "Sid": "001",
-          "Effect": "Allow",
-          "Principal": "*",
-          "Action": "sqs:SendMessage",
-          "Resource":  aws_sqs_queue.count_queue.arn,
-          "Condition": {
-            "ArnEquals": {
-              "aws:SourceArn":  aws_sqs_queue.count_queue.arn
+          "Sid" : "001",
+          "Effect" : "Allow",
+          "Principal" : "*",
+          "Action" : "sqs:SendMessage",
+          "Resource" : aws_sqs_queue.count_queue.arn,
+          "Condition" : {
+            "ArnEquals" : {
+              "aws:SourceArn" : aws_sqs_queue.count_queue.arn
             }
           }
         }
       ]
-    })
+  })
 }
 
 resource "aws_sns_topic_subscription" "results_updates_sqs_target" {
