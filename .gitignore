@@ -27,3 +27,9 @@ dist
 .env
 .env.dev
 .env.production
+
+# Terraform
+.terraform
+.tfstate
+.terraform.*
+backend.tf

@@ -1,10 +1,11 @@
 package controllers
 
 import (
+	"github.com/counterapi/api/pkg/aws"
+	"github.com/counterapi/api/pkg/repositories"
 	"net/http"
 
-	"github.com/counterapi/api/pkg/repositories"
-
+	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 )
@@ -36,6 +37,29 @@ func (c CounterController) Up(ctx *gin.Context) {
 	var query UpQuery
 
 	if err := ctx.ShouldBindWith(&query, binding.Query); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"code":    http.StatusBadRequest,
+			"message": err.Error(),
+		})
+
+		return
+	}
+
+	cfg, err := config.LoadDefaultConfig(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"code":    http.StatusBadRequest,
+			"message": err.Error(),
+		})
+
+		return
+	}
+
+	client := aws.NewSNS(cfg)
+	topicArn := "arn:aws:sns:eu-central-1:674338953346:counterapi-count-topic.fifo"
+	message := `{"counter": {"name": "test", "namespace": "test"}, "type": "count_up"}`
+	err = client.Publish(ctx, &topicArn, &message)
+	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"code":    http.StatusBadRequest,
 			"message": err.Error(),
