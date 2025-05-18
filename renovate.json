@@ -17,6 +17,11 @@
         "patch"
       ],
       "automerge": true
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["whitesource/renovate"],
+      "versioning": "semver"
     }
   ]
 }
