@@ -20,8 +20,6 @@ lint:
 	gofmt -l . | tee $(BUFFER)
 	@! test -s $(BUFFER)
 	go vet ./...
-	go get github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.1
-	@golangci-lint --version
 	golangci-lint run
 
 .PHONY: test

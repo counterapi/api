@@ -79,7 +79,7 @@ func (r CounterRepository) Create(counter *models.Counter) error {
 
 // GetOrCreateByName get counter or create by name.
 func (r CounterRepository) GetOrCreateByName(namespace, name string) (models.Counter, error) {
-	//nolint:gosimple // It's okay to use literal here.
+	//nolint:staticcheck // It's okay to use literal here.
 	namespaceRepository := NamespaceRepository{r.DB}
 
 	counter, err := r.GetByName(namespace, name)
