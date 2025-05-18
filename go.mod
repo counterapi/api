@@ -12,7 +12,7 @@ require (
 	github.com/juju/ratelimit v1.0.2
 	github.com/prometheus/client_golang v1.19.0
 	gorm.io/driver/postgres v1.5.7
-	gorm.io/gorm v1.25.7
+	gorm.io/gorm v1.26.1
 )
 
 require (
