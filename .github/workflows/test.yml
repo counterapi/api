@@ -1,7 +1,6 @@
 name: Tests
 
 on:
-  push:
   pull_request:
 
 jobs:
@@ -9,10 +8,10 @@ jobs:
     name: Test and coverage
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Go 1.x
-        uses: actions/setup-go@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
         with:
-          go-version: ^1.21
+          go-version: stable
         id: go
 
       - name: Checkout code
@@ -36,10 +35,10 @@ jobs:
     name: go vet and lint
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Go 1.x
-        uses: actions/setup-go@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
         with:
-          go-version: ^1.21
+          go-version: stable
         id: go
 
       - name: Checkout code
@@ -52,13 +51,14 @@ jobs:
         run: go vet ./...
 
   golangci:
-    name: golangci lint check
+    name: lint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
         with:
-          version: v1.54.0
+          go-version: stable
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v8
+        with:
+          version: v2.1
