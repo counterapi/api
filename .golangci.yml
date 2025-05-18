@@ -1,25 +1,37 @@
-version: 2
+version: "2"
 run:
   timeout: 5m
   issues-exit-code: 1
   tests: true
   modules-download-mode: readonly
 
-settings:
-  goimports:
-    local-prefixes: github.com/counterapi/api
-
-issues:
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - goerr113
-        - gocyclo
-        - errcheck
-        - gosec
-        - dupl
-        - funlen
-        - testpackage
-
+formatters:
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/counterapi/api
 linters:
   default: standard
+  exclusions:
+    # Log a warning if an exclusion rule is unused.
+    # Default: false
+    warn-unused: true
+    # Predefined exclusion rules.
+    # Default: []
+    presets:
+      - std-error-handling
+      - common-false-positives
+    # Excluding configuration per-path, per-linter, per-text and per-source.
+    rules:
+      - path: '_test\.go'
+        linters:
+          - bodyclose
+          - dupl
+          - errcheck
+          - funlen
+          - goconst
+          - gosec
+          - noctx
+          - wrapcheck
+
+
