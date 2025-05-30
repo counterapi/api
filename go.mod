@@ -6,7 +6,7 @@ require (
 	github.com/chenyahui/gin-cache v1.9.0
 	github.com/gin-contrib/cors v1.7.5
 	github.com/gin-gonic/gin v1.10.0
-	github.com/go-redis/redis/v8 v8.11.5
+	github.com/redis/go-redis/v9 v9.8.0
 	github.com/juju/ratelimit v1.0.2
 	github.com/prometheus/client_golang v1.22.0
 	gorm.io/driver/postgres v1.5.11
