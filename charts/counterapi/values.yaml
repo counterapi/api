@@ -104,7 +104,7 @@ redis:
   image:
     repository: redis
     pullPolicy: Always
-    tag: "8.0.1-alpine"
+    tag: "8.0.2-alpine"
 
   service:
     type: ClusterIP
