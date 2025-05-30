@@ -1,13 +1,12 @@
 {{- if .Values.redis.enabled }}
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: {{ include "counterapi.fullname" . }}-redis
   labels:
     app: {{ include "counterapi.fullname" . }}-redis
     {{- include "counterapi.labels" . | nindent 4 }}
 spec:
-  serviceName: {{ include "counterapi.fullname" . }}-redis
   replicas: {{ .Values.redis.replicaCount }}
   selector:
     matchLabels:
@@ -29,12 +28,4 @@ spec:
           volumeMounts:
             - name: {{ include "counterapi.fullname" . }}-redis-data
               mountPath: /data
-  volumeClaimTemplates:
-    - metadata:
-        name: {{ include "counterapi.fullname" . }}-redis-data
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
 {{- end }}
