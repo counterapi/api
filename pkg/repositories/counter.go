@@ -118,13 +118,13 @@ func (r CounterRepository) IncreaseByName(namespace, name string) (models.Counte
 		}
 
 		// Create Count record
-		count := models.Count{
-			CounterID: counter.ID,
-		}
-
-		if err = tx.Create(&count).Error; err != nil {
-			return err
-		}
+		//count := models.Count{
+		//	CounterID: counter.ID,
+		//}
+		//
+		//if err = tx.Create(&count).Error; err != nil {
+		//	return err
+		//}
 
 		return nil
 	})
@@ -155,13 +155,13 @@ func (r CounterRepository) DecreaseByName(namespace, name string) (models.Counte
 		}
 
 		// Create Count record
-		count := models.Count{
-			CounterID: counter.ID,
-		}
-
-		if err = tx.Create(&count).Error; err != nil {
-			return err
-		}
+		//count := models.Count{
+		//	CounterID: counter.ID,
+		//}
+		//
+		//if err = tx.Create(&count).Error; err != nil {
+		//	return err
+		//}
 
 		return nil
 	})
@@ -187,13 +187,13 @@ func (r CounterRepository) SetByName(namespace, name string, count uint) (models
 		}
 
 		// Create Count record
-		count := models.Count{
-			CounterID: counter.ID,
-		}
-
-		if err = tx.Create(&count).Error; err != nil {
-			return err
-		}
+		//count := models.Count{
+		//	CounterID: counter.ID,
+		//}
+		//
+		//if err = tx.Create(&count).Error; err != nil {
+		//	return err
+		//}
 
 		return nil
 	})
