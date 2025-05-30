@@ -25,7 +25,4 @@ spec:
           ports:
             - containerPort: {{ .Values.redis.service.port }}
               name: redis
-          volumeMounts:
-            - name: {{ include "counterapi.fullname" . }}-redis-data
-              mountPath: /data
 {{- end }}
