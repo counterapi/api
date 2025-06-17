@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	limitInterval = time.Second
-	limitCapacity = 10
+	limitInterval = time.Minute
+	limitCapacity = 30
 )
 
 // RateKeyFunc is a function for rate key.
@@ -51,7 +51,7 @@ func (r *RateLimiterMiddleware) Middleware() gin.HandlerFunc {
 		if err != nil || limiter.TakeAvailable(1) == 0 {
 			ctx.AbortWithStatusJSON(http.StatusTooManyRequests, gin.H{
 				"code":    "429",
-				"message": fmt.Sprintf(pkg.ErrorMessageFormat, "too many requests"),
+				"message": fmt.Sprintf(pkg.ErrorMessageFormat, "too many requests, please use v2 endpoints for higher rate limits"),
 			})
 		} else {
 			ctx.Writer.Header().Set("X-RateLimit-Remaining", fmt.Sprintf("%d", limiter.Available()))
