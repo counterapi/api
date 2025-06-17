@@ -53,7 +53,7 @@ func setDB() {
 
 // setMiddlewares will set middlewares.
 func setMiddlewares(router *gin.Engine) {
-	lm := middlewares.NewRateLimiter(func(ctx *gin.Context) (string, error) {
+	lm := middlewares.NewRedisRateLimiter(func(ctx *gin.Context) (string, error) {
 		return ctx.ClientIP(), nil
 	})
 

@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  api:
+  counterapi_api:
     build:
       context: ./
       dockerfile: Dockerfile
@@ -8,30 +8,34 @@ services:
     ports:
       - 8080:80
     networks:
-      - counterapi
+      - counterapi_api
     depends_on:
-      - database
-      - redis
-      - prometheus
+      - counterapi_api_database
+      - counterapi_api_redis
+      - counterapi_prometheus
     environment:
-      - DB_HOST=database
+      - DB_HOST=counterapi_api_database
       - DB_PORT=5432
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_NAME=postgres
-      - REDIS_HOST=redis
+      - REDIS_HOST=counterapi_api_redis
       - REDIS_PORT=6379
+      - REDIS_DB=14
+      - RATE_LIMIT_INTERVAL_SECONDS=60
+      - RATE_LIMIT_CAPACITY=10
+      - RATE_LIMIT_KEY_PREFIX=counter-api-old-ratelimit
 
-  prometheus:
+  counterapi_prometheus:
     image: prom/prometheus:latest
     ports:
       - 9090:9090
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yml
     networks:
-      - counterapi
+      - counterapi_api
 
-  database:
+  counterapi_api_database:
     image: postgres:17.5-alpine
     restart: always
     environment:
@@ -40,24 +44,24 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - counterapi:/var/lib/postgresql/data
+      - counterapi_api:/var/lib/postgresql/data
     networks:
-      - counterapi
+      - counterapi_api
 
-  redis:
+  counterapi_api_redis:
     image: redis:latest
     restart: always
     ports:
       - '6379:6379'
     volumes:
-      - counterapi:/redis/data
+      - counterapi_api:/redis/data
     networks:
-      - counterapi
+      - counterapi_api
 
 networks:
-  counterapi:
+  counterapi_api:
     driver: bridge
 
 volumes:
-  counterapi:
+  counterapi_api:
     driver: local

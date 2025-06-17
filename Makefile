@@ -44,7 +44,7 @@ release: build-for-container
 
 .PHONY: dev
 dev:
-	gin --appPort 80 --port 8000 -i
+	docker compose up --build
 
 .PHONY: dev-db
 dev-db:
