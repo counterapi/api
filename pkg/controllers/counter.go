@@ -155,8 +155,3 @@ func (c CounterController) GetCounts(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, counts)
 }
-
-// Health returns health status.
-func (c CounterController) Health(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{"status": http.StatusOK, "message": "Operational"})
-}

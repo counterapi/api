@@ -24,5 +24,4 @@ func (r Routes) addCounter(rg *gin.RouterGroup) {
 	route.GET("/down", counter.Down)
 	route.GET("/set", counter.Set)
 	route.GET("/list", cache.CacheByRequestURI(r.cacheConfig.Store, 1*time.Hour), counter.GetCounts)
-	route.GET("/health", counter.Health)
 }
