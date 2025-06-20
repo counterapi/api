@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://counterapi.dev/" target="_blank">
-    <img width="180" src="https://raw.githubusercontent.com/counterapi/docs/master/src/.vuepress/public/favicons/apple-icon-180x180.png" alt="logo">
+    <img width="180" src="https://counterapi.dev/img/logo.png" alt="logo">
   </a>
 </p>
 
@@ -13,6 +13,14 @@
     <a href="http://pkg.go.dev/github.com/counterapi/counter"><img src="https://img.shields.io/badge/pkg.go.dev-doc-blue" alt="Doc"></a>
     <a href="https://github.com/counterapi/api/blob/master/LICENSE"><img src="https://img.shields.io/github/license/counterapi/counter" alt="License"></a>
 </p>
+
+> 💬 **Have a Question or Need Help?**  
+> We’d love to hear from you!  
+> 👉 [Join the Community Discussions](https://community.counterapi.dev)
+> 
+> Ask questions, get support, or share your ideas with others.  
+> Let’s build something great together! 🚀
+
 
 Go Library for Counter API.
 
