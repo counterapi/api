@@ -36,7 +36,7 @@ services:
       - counterapi_api
 
   counterapi_api_database:
-    image: postgres:17.5-alpine
+    image: postgres:18.6-alpine
     restart: always
     environment:
       - POSTGRES_USER=postgres
